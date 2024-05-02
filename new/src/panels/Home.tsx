@@ -11,7 +11,7 @@ import {
   NavIdProps,
 } from '@vkontakte/vkui';
 import { UserInfo } from '@vkontakte/vk-bridge';
-import New from '../pages/News';
+import New from '../features/News/components/NewsList';
 // import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 
 export interface HomeProps extends NavIdProps {
