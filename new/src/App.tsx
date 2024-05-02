@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect, ReactNode } from 'react';
+import bridge, { UserInfo } from '@vkontakte/vk-bridge';
+import { View, SplitLayout, SplitCol, ScreenSpinner } from '@vkontakte/vkui';
+import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { Persik, Home } from './panels';
+import { DEFAULT_VIEW_PANELS } from './routes';
+
+export const App = () => {
+  const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
+  const [fetchedUser, setUser] = useState<UserInfo | undefined>();
+  const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large" />);
+
+  useEffect(() => {
+    async function fetchData() {
+      const user = await bridge.send('VKWebAppGetUserInfo');
+      setUser(user);
+      setPopout(null);
+    }
+    fetchData();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <SplitLayout popout={popout}>
+      <SplitCol>
+        <View activePanel={activePanel}>
+          <Home id="home" fetchedUser={fetchedUser} />
+          <Persik id="persik" />
+        </View>
+      </SplitCol>
+    </SplitLayout>
+  );
+};
