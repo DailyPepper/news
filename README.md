@@ -3,7 +3,7 @@
 Для начала нужно склонировать репозиторий:
 
 ```
-git clone 
+git clone https://github.com/DailyPepper/news
 ```
 
 Перейти в деректорию new:
