@@ -23,3 +23,9 @@ yarn install
 ```
 yarn start
 ```
+
+## Ссылка на приложение 
+```
+https://stage-app51916813-6b3d3f9b6dd4.pages.vk-apps.com/index.html
+```
+
